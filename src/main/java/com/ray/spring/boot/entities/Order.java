@@ -2,6 +2,8 @@ package com.ray.spring.boot.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -34,6 +37,9 @@ public class Order implements Serializable{
     @JoinColumn(name = "client_id")
     private User client;
 
+    @OneToMany (mappedBy = "id.order")
+    private Set <OrderItem> item = new HashSet<>();
+    
     public Order() {
     }
 
@@ -42,6 +48,10 @@ public class Order implements Serializable{
 	this.moment = moment;
 	this.client = client;
 	this.setOrderStatus(orderStatus);
+    }
+
+    public Set<OrderItem> getItem() {
+        return item;
     }
 
     public Long getId() {
